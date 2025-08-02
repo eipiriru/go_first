@@ -88,36 +88,40 @@ func konversiSuhuFunc() {
 	fmt.Print("Ke satuan suhu : ")
 	fmt.Scan(&keSuhu)
 
-	var hasilKonversi float64
+	hasilKonversi := KonversiSuhu(dariSuhu, keSuhu, suhu)
+	fmt.Printf("Konversi -> %.2f %s = %.2f %s\n", suhu, listSuhu[dariSuhu-1], hasilKonversi, listSuhu[keSuhu-1])
+}
 
-	convertSuhu := func(dari int, ke int, suhu float64) float64 {
-		var suhuCelcius float64
-		var result float64
-		switch dari {
-		case 1:
-			suhuCelcius = suhu
-		case 2:
-			suhuCelcius = (5.0 / 9.0) * (suhu - 32)
-		case 3:
-			suhuCelcius = suhu - 273.15
-		case 4:
-			suhuCelcius = suhu * (5.0 / 4.0)
-		}
+func KonversiSuhu(dari int, ke int, suhu float64) float64 {
+	// parameter dari & ke
+	// 1 = Celcius
+	// 2 = Fahrenheit
+	// 3 = Kelvin
+	// 4 = Reamur
 
-		switch ke {
-		case 1:
-			result = suhuCelcius
-		case 2:
-			result = (suhuCelcius * (9.0 / 5.0)) + 32
-		case 3:
-			result = suhuCelcius + 273.15
-		case 4:
-			result = suhuCelcius * (4.0 / 5.0)
-		}
-
-		return result
+	var suhuCelcius float64
+	var result float64
+	switch dari {
+	case 1:
+		suhuCelcius = suhu
+	case 2:
+		suhuCelcius = (5.0 / 9.0) * (suhu - 32)
+	case 3:
+		suhuCelcius = suhu - 273.15
+	case 4:
+		suhuCelcius = suhu * (5.0 / 4.0)
 	}
 
-	hasilKonversi = convertSuhu(dariSuhu, keSuhu, suhu)
-	fmt.Printf("Konversi -> %.2f %s = %.2f %s\n", suhu, listSuhu[dariSuhu-1], hasilKonversi, listSuhu[keSuhu-1])
+	switch ke {
+	case 1:
+		result = suhuCelcius
+	case 2:
+		result = (suhuCelcius * (9.0 / 5.0)) + 32
+	case 3:
+		result = suhuCelcius + 273.15
+	case 4:
+		result = suhuCelcius * (4.0 / 5.0)
+	}
+
+	return result
 }
