@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{.title}}</title>
+        <link rel="stylesheet" href="/static/apa.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <div class="center-div">
+            <h1>Konversi Suhu</h1>
+            <form id="konversiSuhuForm" method="POST" action="/processFormKonversiSuhu">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="number" name="val1" class="f-w center valsuhu" data-suhufrom="suhu1" data-suhuto="suhu2" data-resulton="val2">
+                        </td>
+                        <td>
+                            <input type="number" name="val2" class="f-w center valsuhu" data-suhufrom="suhu2" data-suhuto="suhu1" data-resulton="val1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="suhu1" class="f-w center suhu">
+                                <option value="1">Celcius</option>
+                                <option value="2">Fahrenheit</option>
+                                <option value="3">Kelvin</option>
+                                <option value="4">Reamur</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="suhu2" class="f-w center suhu">
+                                <option value="1">Celcius</option>
+                                <option value="2">Fahrenheit</option>
+                                <option value="3">Kelvin</option>
+                                <option value="4">Reamur</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+    <script>
+        var formId = "#konversiSuhuForm";
+
+        $(formId + " .valsuhu").on("keyup", function(e){
+            e.preventDefault();
+
+            var obj = $(this);
+            konversiSuhuAction(obj);
+        })
+
+        $(formId + " .suhu").on("change", function(e){
+            e.preventDefault();
+
+            var obj = $(formId + " input[name='val1']");
+            konversiSuhuAction(obj);
+        })
+
+        async function konversiSuhuAction(obj){
+            var result = await konversiSuhu(obj.val(), $(formId + " select[name='"+obj.data('suhufrom')+"']").val(), $(formId + " select[name='"+obj.data('suhuto')+"']").val());
+            $(formId + " input[name='"+obj.data('resulton')+"']").val(result);
+        }
+
+        async function konversiSuhu(suhu, dari, ke){ 
+            var form = $(formId);
+            var result = "";
+            await $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: {
+                    suhu: suhu,
+                    dari: dari,
+                    ke: ke
+
+                },
+                success: function(data){
+                    result = data.Result;
+                }
+            }).then(function (res){
+                console.log(res);
+            }).catch(function(err){
+                console.log(err);
+            })
+
+            return result;
+        }
+    </script>
+</html>

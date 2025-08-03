@@ -1,3 +1,18 @@
 .red-text {
     color: red;
 }
+
+.center{
+    text-align: center;
+}
+
+.f-w{
+    width: 100%;
+}
+
+.center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* agar elemen tersusun ke bawah */
+}
