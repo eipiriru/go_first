@@ -1,6 +1,6 @@
 package main
 
-import "go_first/webapps"
+import "go_first/antrian"
 
 // "go_first/kalkulator"
 
@@ -9,6 +9,8 @@ func main() {
 	// 	kalkulator.Kalkulator()
 	// }
 
-	address := "localhost:9000"
-	webapps.Route(address)
+	// address := "localhost:9000"
+	// webapps.Route(address)
+
+	antrian.Antrian()
 }
