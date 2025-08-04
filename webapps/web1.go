@@ -2,7 +2,6 @@ package webapps
 
 import (
 	"encoding/json"
-	"fmt"
 	"go_first/kalkulator"
 	"html/template"
 	"net/http"
@@ -12,23 +11,11 @@ import (
 
 var rootProj string = "webapps"
 
-func Route(address string) {
-
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(path.Join(rootProj, "assets")))))
+func web1_init() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/konversiSuhu", konversiSuhu)
 	http.HandleFunc("/processFormKonversiSuhu", processFormKonversiSuhu)
-
-	fmt.Println("Server started on", address)
-
-	server := new(http.Server)
-	server.Addr = address
-
-	err := server.ListenAndServe()
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
