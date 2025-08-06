@@ -13,6 +13,7 @@ func main() {
 	// webapps.Route(address)
 
 	webapps.SendRandomPoll("urlpolling", 20)
+	webapps.SendPollShouldBalanced("urlpolling")
 
 	// antrian.Antrian()
 }
