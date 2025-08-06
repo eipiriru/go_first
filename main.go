@@ -9,8 +9,10 @@ func main() {
 	// 	kalkulator.Kalkulator()
 	// }
 
-	address := "localhost:9000"
-	webapps.Route(address)
+	// address := "localhost:9000"
+	// webapps.Route(address)
+
+	webapps.SendRandomPoll("urlpolling", 20)
 
 	// antrian.Antrian()
 }
