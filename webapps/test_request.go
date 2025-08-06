@@ -69,6 +69,35 @@ func SendPollShouldBalanced(url string) {
 	}
 }
 
+func SendPollSpecificUntilTarget(url string, specificInt int, targetPoll float64) {
+	counter := [4]int{}
+	stop := false
+	for !stop {
+		indexInt := specificInt
+		answer := ans[indexInt]
+		counter[indexInt] = counter[indexInt] + 1
+		fmt.Println("Send Respons ", answer)
+
+		jsonBytes, err := json.Marshal(map[string]string{"jawaban": answer})
+		if err != nil {
+			log.Fatalf("Error marshaling map to JSON: %v", err)
+		}
+		jsonString := string(jsonBytes)
+
+		response := SendPoll(url, jsonString)
+
+		var bodyMap = map[string]any{}
+
+		_ = json.Unmarshal(response, &bodyMap)
+		fmt.Println(string(response))
+		stop = cekValue(bodyMap, specificInt+1, targetPoll)
+	}
+
+	for i, v := range ans {
+		fmt.Println(v, " : ", counter[i])
+	}
+}
+
 func SendPoll(url string, dataJsonString string) []byte {
 	contentType := "application/json"
 	data := []byte(dataJsonString)
@@ -122,4 +151,27 @@ func findMinValue(param map[string]any) (int, bool) {
 	}
 
 	return index - 1, tempStop
+}
+
+func cekValue(param map[string]any, specificInt int, targetPoll float64) bool {
+	var val float64 = 0
+	tempStop := false
+	for key, value := range param {
+		if key == "data" {
+			for k, v := range value.(map[string]any) {
+				k, _ := strconv.Atoi(k)
+				if specificInt == k {
+					switch c := v.(type) {
+					case float64:
+						val = float64(c)
+					}
+					if val < targetPoll || val > targetPoll {
+						tempStop = true
+					}
+				}
+			}
+		}
+	}
+
+	return tempStop
 }
