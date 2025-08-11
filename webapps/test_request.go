@@ -15,14 +15,19 @@ var ans = [4]string{"Sangat Bermanfaat", "Cukup Bermanfaat", "Bermanfaat", "Kura
 
 func SendRandomPoll(url string, count int64) {
 	counter := [4]int{}
-	for i := 0; i <= int(count); i++ {
+	for i := 0; i < int(count); i++ {
 		randomInt := rand.IntN(4-0) + 0
 		answer := ans[randomInt]
 		counter[randomInt] = counter[randomInt] + 1
 
-		fmt.Println("Send Respons ", answer)
+		komentar := GetRandomKomentarByPrompt("Berikan kalimat review atau komentar untuk sebuah website rumah sakit. Berikan satu jawaban review umum karena kamu rasa website tersebut " + answer)
+		fmt.Println("Respons : ", answer)
+		fmt.Println("Komentar : ", komentar)
 
-		jsonBytes, err := json.Marshal(map[string]string{"jawaban": answer})
+		jsonBytes, err := json.Marshal(map[string]string{
+			"jawaban":  answer,
+			"komentar": komentar,
+		})
 		if err != nil {
 			log.Fatalf("Error marshaling map to JSON: %v", err)
 		}
@@ -46,9 +51,15 @@ func SendPollShouldBalanced(url string) {
 		indexInt := specificInt
 		answer := ans[indexInt]
 		counter[indexInt] = counter[indexInt] + 1
-		fmt.Println("Send Respons ", answer)
 
-		jsonBytes, err := json.Marshal(map[string]string{"jawaban": answer})
+		komentar := GetRandomKomentarByPrompt("Berikan kalimat review atau komentar untuk sebuah website rumah sakit. Berikan satu jawaban review umum karena kamu rasa website tersebut " + answer)
+		fmt.Println("Respons : ", answer)
+		fmt.Println("Komentar : ", komentar)
+
+		jsonBytes, err := json.Marshal(map[string]string{
+			"jawaban":  answer,
+			"komentar": komentar,
+		})
 		if err != nil {
 			log.Fatalf("Error marshaling map to JSON: %v", err)
 		}
@@ -76,9 +87,15 @@ func SendPollSpecificUntilTarget(url string, specificInt int, targetPoll float64
 		indexInt := specificInt
 		answer := ans[indexInt]
 		counter[indexInt] = counter[indexInt] + 1
-		fmt.Println("Send Respons ", answer)
 
-		jsonBytes, err := json.Marshal(map[string]string{"jawaban": answer})
+		komentar := GetRandomKomentarByPrompt("Berikan kalimat review atau komentar untuk sebuah website rumah sakit. Berikan satu jawaban review umum karena kamu rasa website tersebut " + answer)
+		fmt.Println("Respons : ", answer)
+		fmt.Println("Komentar : ", komentar)
+
+		jsonBytes, err := json.Marshal(map[string]string{
+			"jawaban":  answer,
+			"komentar": komentar,
+		})
 		if err != nil {
 			log.Fatalf("Error marshaling map to JSON: %v", err)
 		}
