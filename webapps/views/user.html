@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{.title}}</title>
+        <link rel="stylesheet" href="/static/apa.css" />
+    </head>
+    <body>
+        <ul>
+            {{ range $i, $e :=  .users }}
+                <li>{{ $e.Name }}</li>
+            {{ end }}
+        </ul>
+    </body>
+</html>

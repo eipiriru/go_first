@@ -1,11 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"go_first/cobasql"
-	"go_first/helpers"
-	"time"
-)
+import "go_first/webapps"
 
 // "go_first/kalkulator"
 
@@ -14,8 +9,8 @@ func main() {
 	// 	kalkulator.Kalkulator()
 	// }
 
-	// address := "localhost:9000"
-	// webapps.Route(address)
+	address := "localhost:9000"
+	webapps.Route(address)
 
 	// webapps.SendRandomPoll("urlpolling", 2)
 	// webapps.SendPollShouldBalanced("urlpolling")
@@ -25,19 +20,26 @@ func main() {
 
 	// fmt.Println(webapps.GetRandomKomentarByPrompt("Berikan satu quote dalam dari filsuf terkenal. Berikan jawaban dengan format kutipan diakhiri dengan pemberi kutipan"))
 
-	timeNow := time.Now()
+	// conf := c.Config()
+	// loc, _ := time.LoadLocation(conf.TIMEZONE)
+	// timeNow := time.Now().In(loc)
 
-	newUser := cobasql.User{
-		Username:      "Testing",
-		Name:          "Testingm123",
-		Email:         "Testingm123@mail",
-		Register_date: &timeNow,
-	}
-	each := cobasql.InsertUser(newUser)
-	fmt.Println(each.Id, " - ", each.Username, " -", each.Name, " - ", each.Email, " - ", helpers.Ternary(each.Register_date != nil, each.Register_date, ""))
+	// fmt.Printf("%v", timeNow)
 
-	result := cobasql.GetAllUser()
-	for _, each := range result {
-		fmt.Println(each.Id, " - ", each.Username, " -", each.Name, " - ", each.Email, " - ", helpers.Ternary(each.Register_date != nil, each.Register_date, ""))
-	}
+	// newUser := cobasql.User{
+	// 	Username:      "Testing",
+	// 	Name:          "Testingm123",
+	// 	Email:         "Testingm123@mail",
+	// 	Register_date: &timeNow,
+	// }
+	// fmt.Println(newUser)
+	// each := cobasql.InsertUser(newUser)
+	// fmt.Println(each.Id, " - ", each.Username, " -", each.Name, " - ", each.Email, " - ", helpers.Ternary(each.Register_date != nil, each.Register_date, ""))
+
+	// result := cobasql.GetAllUser()
+	// for _, each := range result {
+	// 	fmt.Println(each.Id, " - ", each.Username, " -", each.Name, " - ", each.Email, " - ", helpers.Ternary(each.Register_date != nil, each.Register_date, ""))
+	// }
+
+	// fmt.Printf("%v", time.Now())
 }

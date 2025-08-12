@@ -3,26 +3,22 @@ package cobasql
 import (
 	"database/sql"
 	"fmt"
-	"log"
-	"os"
+	c "go_first/config"
+	"net/url"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 func connectDB() (*sql.DB, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	conf := c.Config()
+	DB_HOST := conf.DB_HOST
+	DB_PORT := conf.DB_PORT
+	DB_NAME := conf.DB_NAME
+	DB_USERNAME := conf.DB_USERNAME
+	DB_PASSWORD := conf.DB_PASSWORD
+	tz := conf.TIMEZONE
 
-	DB_HOST := os.Getenv("DB_HOST")
-	DB_PORT := os.Getenv("DB_PORT")
-	DB_NAME := os.Getenv("DB_NAME")
-	DB_USERNAME := os.Getenv("DB_USERNAME")
-	DB_PASSWORD := os.Getenv("DB_PASSWORD")
-
-	con := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
+	con := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&loc=%s", DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME, url.QueryEscape(tz))
 	db, err := sql.Open("mysql", con)
 
 	if err != nil {

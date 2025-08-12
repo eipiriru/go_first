@@ -2,6 +2,7 @@ package webapps
 
 import (
 	"encoding/json"
+	"go_first/cobasql"
 	"go_first/kalkulator"
 	"html/template"
 	"net/http"
@@ -16,6 +17,8 @@ func web1_init() {
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/konversiSuhu", konversiSuhu)
 	http.HandleFunc("/processFormKonversiSuhu", processFormKonversiSuhu)
+
+	http.HandleFunc("/users", getAllUsers)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -88,5 +91,25 @@ func processFormKonversiSuhu(w http.ResponseWriter, r *http.Request) {
 		w.Write(jsonInBytes)
 	default:
 		http.Error(w, "", http.StatusBadRequest)
+	}
+}
+
+func getAllUsers(w http.ResponseWriter, r *http.Request) {
+	var filepath = path.Join(rootProj, "views", "user.html")
+	var tmp, err = template.ParseFiles(filepath)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	data := map[string]interface{}{
+		"title": "List User",
+		"users": cobasql.GetAllUser(),
+	}
+	err = tmp.Execute(w, data)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
